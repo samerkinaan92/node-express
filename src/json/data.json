@@ -23,6 +23,15 @@
             "name": "item4",
             "itemsInStock": 3
         }
+    ],
+    "categories": [{
+            "id": "4ef580f0-aadc-11e9-82a7-87ca8cbb29d9",
+            "name": "cat1"
+        },
+        {
+            "id": "4ef66b50-aadc-11e9-82a7-87ca8cbb29d9",
+            "name": "cat2"
+        }
     ]
 
 }

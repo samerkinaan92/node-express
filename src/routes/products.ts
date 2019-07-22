@@ -1,11 +1,11 @@
 import {Request, Response, NextFunction, Router} from 'express';
-import productsJson from '../json/products.json';
+import data from '../json/data.json';
 import { Product } from '../models';
 import uuidv1 from 'uuid/v1';
 
 const router = Router();
 
-const products: Product[] = productsJson.products;
+const products: Product[] = data.products;
 
 function findProductIndex(req: Request, res: Response, next: NextFunction){
     const id = req.params.id;

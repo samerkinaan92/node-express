@@ -1,14 +1,13 @@
 import {Request, Response, NextFunction, Router} from 'express';
-import productsJson from '../json/products.json';
-import categoriesJson from '../json/categories.json';
+import data from '../json/data.json';
 import { Product, Category } from '../models';
 import uuidv1 from 'uuid/v1';
 
 
 const router = Router();
 
-const products: Product[] = productsJson.products;
-const categories: Category[] = categoriesJson.categories;
+const products: Product[] = data.products;
+const categories: Category[] = data.categories;
 
 function findCategoryIndex(req: Request, res: Response, next: NextFunction){
     const id:string = req.params.id;
