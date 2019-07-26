@@ -7,28 +7,7 @@ const router = Router();
 
 const products: Product[] = data.products;
 
-function findProductIndex(req: Request, res: Response, next: NextFunction){
-    const id = req.params.id;
-
-    if(id.length !== 36){
-        res.sendStatus(400);
-        return;
-    }
-
-    const matchingIndex = products.findIndex((product) =>{
-        return product.id === id;
-    });
-
-    if(matchingIndex < 0){
-        res.sendStatus(404);
-        return;
-    }
-
-    res.locals.matchingIndex = matchingIndex;
-    next();
-}
-
-router.get('/:id', findProductIndex, (req, res, next) => {
+router.get('/:id', (req, res, next) => {
     res.send(products[res.locals.matchingIndex]);
 });
 
@@ -38,23 +17,14 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     const product: Product = req.body;
-    if(product.name.length < 3){
-        res.sendStatus(409);
-        return;
-    }
     product.id = uuidv1();
     products.push(product);
     res.status(201).send(product);
 });
 
-router.put('/:id', findProductIndex, (req, res) => {
+router.put('/:id', (req, res) => {
         const product: Product = req.body;
         const id: string = req.params.id;
-
-        if(product.name.length < 3){
-            res.sendStatus(409);
-            return;
-        }
 
         product.id = id;
         products[res.locals.matchingIndex] = product;
@@ -62,7 +32,7 @@ router.put('/:id', findProductIndex, (req, res) => {
         res.send(product);  
       });
 
-router.delete('/:id', findProductIndex, (req, res) => {
+router.delete('/:id', (req, res) => {
     products.splice(res.locals.matchingIndex, 1);
 
     res.sendStatus(204);
