@@ -1,20 +1,28 @@
 import {Request, Response, NextFunction, Router} from 'express';
-import data from '../json/data.json';
 import { Category } from '../models';
 import joi from 'joi';
-import {idValidation} from '../validations/product';
+import {idValidation} from '../validations/validation';
+import request from 'request-promise';
 
 
 const router = Router();
 
-const categories: Category[] = data.categories;
 
-function findCategoryIndex(req: Request, res: Response, next: NextFunction){
+
+async function findCategoryIndex(req: Request, res: Response, next: NextFunction){
     const id:string = req.params.id;
+
+    const client = request.defaults({
+        baseUrl: 'http://localhost:3000/public',
+        json: true,
+    });
+
+    const data = await client.get('/data.json');
+    const categories: Category[] = data.categories;
 
     const {error, value} = joi.validate(id, idValidation);
     if(error){
-        throw error;
+        next(error);
     }
 
     const matchedIndex = categories.findIndex((category) => {
